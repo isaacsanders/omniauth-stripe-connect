@@ -1,6 +1,6 @@
 *.gem
 *.rbc
-.rvmrc
+*.rvmrc
 .bundle
 .config
 .yardoc
@@ -16,3 +16,4 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
+example

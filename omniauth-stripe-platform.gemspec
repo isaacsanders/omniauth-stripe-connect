@@ -11,7 +11,7 @@ Read the Stripe Platform docs for more details: https://stripe.com/platform
 }
   gem.homepage      = "https://github.com/intridea/omniauth/wiki"
 
-  gem.files         = `git ls-files`.split($\)
+  gem.files         = `git ls-files | grep -v example`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "omniauth-stripe-platform"
@@ -19,4 +19,5 @@ Read the Stripe Platform docs for more details: https://stripe.com/platform
   gem.version       = Omniauth::StripePlatform::VERSION
 
   gem.add_dependency 'omniauth', '~> 1.0'
+  gem.add_dependency 'omniauth-oauth2', '~> 1.0'
 end
