@@ -29,7 +29,7 @@ Here's a quick example, adding the middleware to a Rails app in
 
 ```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :stripe_platform, ENV['STRIPE_PLATFORM_KEY'], ENV['STRIPE_PLATFORM_SECRET']
+  provider :stripe_platform, ENV['STRIPE_PLATFORM_KEY']
 end
 ```
 
