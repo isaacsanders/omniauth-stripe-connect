@@ -33,6 +33,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 ```
 
+Then you can hit `/auth/stripe_platform`
+
 ## Contributing
 
 1. Fork it
