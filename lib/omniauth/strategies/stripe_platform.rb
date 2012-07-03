@@ -5,10 +5,6 @@ module OmniAuth
     class StripePlatform < OmniAuth::Strategies::OAuth2
       option :name, 'stripe_platform'
 
-      args :client_id
-
-      option :client_id, nil
-
       option :client_options, {
         :site => 'https://manage.stripe.com'
       }
@@ -32,7 +28,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= access_token.post(access_token.client.token_url).parsed || {}
+        @raw_info ||= deep_symbolize(access_token.post(access_token.client.token_url).parsed || {})
       end
     end
   end
