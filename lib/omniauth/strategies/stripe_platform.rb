@@ -32,13 +32,7 @@ module OmniAuth
       end
 
       def raw_info
-        require 'pry-remote'
-        binding.pry_remote
-        if access_token.expires? && access_token.expired?
-          @raw_info = access_token.refresh!
-        else
-          @raw_info ||= access_token.post(access_token.client.token_url).parsed || {}
-        end
+        @raw_info ||= access_token.post(access_token.client.token_url).parsed || {}
       end
     end
   end
