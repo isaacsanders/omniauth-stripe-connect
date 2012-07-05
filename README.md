@@ -37,6 +37,43 @@ Your `STRIPE_PLATFORM_KEY` is application-specific and your `STRIPE_SECRET` is a
 
 Then you can hit `/auth/stripe_platform`
 
+## Auth Hash
+
+Here is an example of the Auth Hash you get back from calling `request.env['omniauth.auth']`:
+
+```ruby
+{
+  "provider"=>"stripe_platform",
+  "uid"=>"<STRIPE_USER_ID>",
+  "info"=>
+  {
+    "scope"=>"read_only", # or "read_write"
+    "livemode"=>false,
+    "access_token"=>nil,
+    "expires_in"=>nil,
+    "stripe_publishable_key"=>"<STRIPE_PUBLISHABLE_KEY>"
+  },
+  "credentials"=>
+  {
+    "token"=>"<TOKEN>",
+    "refresh_token"=>"REFRESH_TOKEN",
+    "expires_at"=>1341608127,
+    "expires"=>true
+  },
+  "extra"=>
+  {
+    "raw_info"=>
+    {
+      "scope"=>"read_only",
+      "livemode"=>false,
+      "token_type"=>"bearer",
+      "stripe_user_id"=>"<STRIPE_USER_ID>",
+      "stripe_publishable_key"=>"<STRIPE_PUBLISHABLE_KEY>"
+    }
+  }
+}
+```
+
 ## Contributing
 
 1. Fork it
