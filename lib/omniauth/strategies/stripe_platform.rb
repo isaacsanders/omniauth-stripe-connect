@@ -28,8 +28,7 @@ module OmniAuth
       end
 
       def raw_info
-        require 'pry-remote';binding.pry_remote
-        @raw_info ||= deep_symbolize(access_token.post(access_token.client.token_url, headers).parsed || {})
+        @raw_info ||= deep_symbolize(access_token.params)
       end
 
       def headers
