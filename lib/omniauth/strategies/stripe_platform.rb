@@ -29,15 +29,18 @@ module OmniAuth
 
       def raw_info
         require 'pry-remote';binding.pry_remote
-        @raw_info ||= deep_symbolize(access_token.post(access_token.client.token_url).parsed || {})
+        @raw_info ||= deep_symbolize(access_token.post(access_token.client.token_url, headers).parsed || {})
       end
 
-      def build_access_token
-        headers = {
+      def headers
+        {
           :headers => {
             'Authorization' => "Bearer #{client.secret}"
           }
         }
+     end
+
+      def build_access_token
         verifier = request.params['code']
         client.auth_code.get_token(verifier, {:redirect_uri => callback_url}.merge(token_params.to_hash(:symbolize_keys => true)).merge(headers))
       end
