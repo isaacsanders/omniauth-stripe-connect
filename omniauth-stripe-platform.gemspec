@@ -19,5 +19,5 @@ Read the Stripe Platform docs for more details: https://stripe.com/platform
   gem.version       = Omniauth::StripePlatform::VERSION
 
   gem.add_dependency 'omniauth', '~> 1.0'
-  gem.add_dependency 'omniauth-oauth2', '~> 1.0'
+  gem.add_dependency 'omniauth-oauth2', '>= 1.0.3'
 end
