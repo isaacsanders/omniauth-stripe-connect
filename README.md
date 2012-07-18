@@ -29,11 +29,11 @@ Here's a quick example, adding the middleware to a Rails app in
 
 ```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :stripe_platform, ENV['STRIPE_PLATFORM_KEY'], ENV['STRIPE_SECRET']
+  provider :stripe_platform, ENV['client_id'], ENV['STRIPE_SECRET']
 end
 ```
 
-Your `STRIPE_PLATFORM_KEY` is application-specific and your `STRIPE_SECRET` is account-specific
+Your `client_id` is application-specific and your `STRIPE_SECRET` is account-specific and may also be known as your Stripe API key or Stripe Private key.
 
 Then you can hit `/auth/stripe_platform`
 
