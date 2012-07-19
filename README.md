@@ -56,30 +56,22 @@ Here is an example of the Auth Hash you get back from calling `request.env['omni
 {
   "provider"=>"stripe_platform",
   "uid"=>"<STRIPE_USER_ID>",
-  "info"=>
-  {
-    "scope"=>"read_only", # or "read_write"
+  "info"=> {
+    "scope"=>"read_write", # or "read_only"
     "livemode"=>false,
-    "access_token"=>nil,
-    "expires_in"=>nil,
-    "stripe_publishable_key"=>"<STRIPE_PUBLISHABLE_KEY>"
+    "stripe_publishable_key"=>"<STRIPE_PUBLISHABLE_KEY>",
   },
-  "credentials"=>
-  {
-    "token"=>"<TOKEN>",
-    "refresh_token"=>"REFRESH_TOKEN",
-    "expires_at"=>1341608127,
-    "expires"=>true
+  "credentials"=> {
+    "token"=>"<STRIPE_ACCESS_TOKEN>",
+    "expires"=>false
   },
-  "extra"=>
-  {
-    "raw_info"=>
-    {
-      "scope"=>"read_only",
-      "livemode"=>false,
+  "extra"=> {
+    "raw_info"=> {
       "token_type"=>"bearer",
       "stripe_user_id"=>"<STRIPE_USER_ID>",
-      "stripe_publishable_key"=>"<STRIPE_PUBLISHABLE_KEY>"
+      "scope"=>"read_only",
+      "stripe_publishable_key"=>"<STRIPE_PUBLISHABLE_KEY>",
+      "livemode"=>false
     }
   }
 }

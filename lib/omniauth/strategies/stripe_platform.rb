@@ -15,7 +15,6 @@ module OmniAuth
         {
           :scope => raw_info[:scope],
           :livemode => raw_info[:livemode],
-          :access_token => raw_info[:access_token],
           :stripe_publishable_key => raw_info[:stripe_publishable_key]
         }
       end
