@@ -29,13 +29,24 @@ Here's a quick example, adding the middleware to a Rails app in
 
 ```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :stripe_platform, ENV['client_id'], ENV['STRIPE_SECRET']
+  provider :stripe_platform, ENV['STRIPE_PLATFORM_CLIENT_ID'], ENV['STRIPE_SECRET']
 end
 ```
 
-Your `client_id` is application-specific and your `STRIPE_SECRET` is account-specific and may also be known as your Stripe API key or Stripe Private key.
+Your `STRIPE_PLATFORM_CLIENT_ID` is application-specific and your `STRIPE_SECRET` is account-specific and may also be known as your Stripe API key or Stripe Private key.
 
 Then you can hit `/auth/stripe_platform`
+
+### Ruby on Rails apps with Devise
+
+After setting up Devise to use OmniAuth, you only need to add the following line of code to handle the OAuth2 part of Stripe Platform.
+
+```ruby
+# Put this in config/initializers/devise.rb with the rest of your Devise configuration
+config.omniauth :stripe_platform, ENV['STRIPE_PLATFORM_CLIENT_ID'], ENV['STRIPE_SECRET_KEY'], {:scope => 'read_write'} # or :scope => 'read_only'
+```
+
+Now your done!
 
 ## Auth Hash
 
