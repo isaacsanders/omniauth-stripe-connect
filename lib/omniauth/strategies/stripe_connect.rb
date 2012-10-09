@@ -2,11 +2,11 @@ require 'omniauth/strategies/oauth2'
 
 module OmniAuth
   module Strategies
-    class StripePlatform < OmniAuth::Strategies::OAuth2
-      option :name, 'stripe_platform'
+    class StripeConnect < OmniAuth::Strategies::OAuth2
+      option :name, 'stripe_connect'
 
       option :client_options, {
-        :site => 'https://manage.stripe.com'
+        :site => 'https://connect.stripe.com'
       }
 
       uid { raw_info[:stripe_user_id] }

@@ -1,15 +1,15 @@
-# Omniauth::StripePlatform
+# Omniauth::StripeConnect
 
-Stripe Platform OAuth2 Strategy for OmniAuth 1.0.
+Stripe Connect OAuth2 Strategy for OmniAuth 1.0.
 
 Supports the OAuth 2.0 server-side and client-side flows.
-Read the Stripe Platform docs for more details: https://stripe.com/platform
+Read the Stripe Connect docs for more details: https://stripe.com/connect
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'omniauth-stripe-platform'
+    gem 'omniauth-stripe-connect'
 
 And then execute:
 
@@ -17,11 +17,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install omniauth-stripe-platform
+    $ gem install omniauth-stripe-connect
 
 ## Usage
 
-OmniAuth::Strategies::StripePlatform is simply a Rack middleware. Read the OmniAuth
+OmniAuth::Strategies::StripeConnect is simply a Rack middleware. Read the OmniAuth
 1.0 docs for detailed instructions: https://github.com/intridea/omniauth.
 
 Here's a quick example, adding the middleware to a Rails app in
@@ -29,21 +29,21 @@ Here's a quick example, adding the middleware to a Rails app in
 
 ```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :stripe_platform, ENV['STRIPE_PLATFORM_CLIENT_ID'], ENV['STRIPE_SECRET']
+  provider :stripe_connect, ENV['STRIPE_CONNECT_CLIENT_ID'], ENV['STRIPE_SECRET']
 end
 ```
 
-Your `STRIPE_PLATFORM_CLIENT_ID` is application-specific and your `STRIPE_SECRET` is account-specific and may also be known as your Stripe API key or Stripe Private key.
+Your `STRIPE_CONNECT_CLIENT_ID` is application-specific and your `STRIPE_SECRET` is account-specific and may also be known as your Stripe API key or Stripe Private key.
 
-Then you can hit `/auth/stripe_platform`
+Then you can hit `/auth/stripe_connect`
 
 ### Ruby on Rails apps with Devise
 
-After setting up Devise to use OmniAuth, you only need to add the following line of code to handle the OAuth2 part of Stripe Platform.
+After setting up Devise to use OmniAuth, you only need to add the following line of code to handle the OAuth2 part of Stripe Connect.
 
 ```ruby
 # Put this in config/initializers/devise.rb with the rest of your Devise configuration
-config.omniauth :stripe_platform, ENV['STRIPE_PLATFORM_CLIENT_ID'], ENV['STRIPE_SECRET_KEY'], {:scope => 'read_write'} # or :scope => 'read_only'
+config.omniauth :stripe_connect, ENV['STRIPE_CONNECT_CLIENT_ID'], ENV['STRIPE_SECRET_KEY'], {:scope => 'read_write'} # or :scope => 'read_only'
 ```
 
 Now your done!
@@ -54,7 +54,7 @@ Here is an example of the Auth Hash you get back from calling `request.env['omni
 
 ```ruby
 {
-  "provider"=>"stripe_platform",
+  "provider"=>"stripe_connect",
   "uid"=>"<STRIPE_USER_ID>",
   "info"=> {
     "scope"=>"read_write", # or "read_only"
