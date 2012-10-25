@@ -9,6 +9,8 @@ module OmniAuth
         :site => 'https://connect.stripe.com'
       }
 
+      option :authorize_options, [:scope]
+
       uid { raw_info[:stripe_user_id] }
 
       info do
