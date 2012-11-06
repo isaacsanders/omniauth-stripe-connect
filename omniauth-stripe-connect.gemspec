@@ -16,7 +16,7 @@ Read the Stripe Connect docs for more details: https://stripe.com/docs/connect
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "omniauth-stripe-connect"
   gem.require_paths = ["lib"]
-  gem.version       = Omniauth::StripeConnect::VERSION
+  gem.version       = OmniAuth::StripeConnect::VERSION
 
   gem.add_dependency 'omniauth', '~> 1.0'
   gem.add_dependency 'omniauth-oauth2', '>= 1.0.3'

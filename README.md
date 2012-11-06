@@ -1,4 +1,4 @@
-# Omniauth::StripeConnect
+# OmniAuth::StripeConnect
 
 Stripe Connect OAuth2 Strategy for OmniAuth 1.0.
 
