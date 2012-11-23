@@ -31,6 +31,10 @@ module OmniAuth
         @raw_info ||= deep_symbolize(access_token.params)
       end
 
+      def request_phase
+        redirect client.auth_code.authorize_url({:redirect_uri => callback_url}.merge(authorize_params.merge(request.params)))
+      end
+
       def build_access_token
         headers = {
           :headers => {
