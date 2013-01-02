@@ -10,6 +10,7 @@ module OmniAuth
       }
 
       option :authorize_options, [:scope, :stripe_landing]
+      option :provider_ignores_state, true
 
       uid { raw_info[:stripe_user_id] }
 
