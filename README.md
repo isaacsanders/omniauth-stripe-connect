@@ -41,7 +41,7 @@ If you hit `/auth/stripe_connect` with any query params, they will be passed alo
 
 ### Ruby on Rails apps with Devise
 
-After setting up Devise to use OmniAuth, you only need to add the following line of code to handle the OAuth2 part of Stripe Connect.
+After setting up Devise to use OmniAuth, you only need to add the following line of code to handle the OAuth2 part of Stripe Connect. Since this Devise initializer code takes care of OmniAuth, do not use a separate OmniAuth initializer.
 
 ```ruby
 # Put this in config/initializers/devise.rb with the rest of your Devise configuration
