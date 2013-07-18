@@ -35,6 +35,25 @@ end
 
 Your `STRIPE_CONNECT_CLIENT_ID` is application-specific and your `STRIPE_SECRET` is account-specific and may also be known as your Stripe API key or Stripe Private key.
 
+Edit your routes.rb file to have:
+`devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }`
+
+And create a file called `omniauth_callbacks_controller.rb` which should have this inside:
+```ruby
+class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+
+  def stripe_connect
+    raise request.env["omniauth.auth"].to_yaml
+  end
+end
+```
+
+Make sure to go to Stripe's Account Settings > Applications and set your Redirect URL to:
+`http://localhost:3003/users/auth/stripe_connect/callback`
+
+The Webhook URL will be something similar:
+`http://www.yourdomain.com/users/auth/stripe_connect/callback`
+
 Then you can hit `/auth/stripe_connect`
 
 If you hit `/auth/stripe_connect` with any query params, they will be passed along to Stripe. Read [Stripe's OAuth Reference](https://stripe.com/docs/connect/reference) for more information.
