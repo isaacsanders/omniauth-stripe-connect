@@ -33,7 +33,7 @@ module OmniAuth
       end
 
       def request_phase
-        redirect client.auth_code.authorize_url({:redirect_uri => callback_url}.merge(authorize_params.merge(request.params)))
+        redirect client.auth_code.authorize_url(authorize_params.merge(request.params))
       end
 
       def build_access_token
@@ -43,7 +43,7 @@ module OmniAuth
           }
         }
         verifier = request.params['code']
-        client.auth_code.get_token(verifier, {:redirect_uri => callback_url}.merge(token_params.to_hash(:symbolize_keys => true)).merge(headers))
+        client.auth_code.get_token(verifier, token_params.to_hash(:symbolize_keys => true).merge(headers))
       end
     end
   end
