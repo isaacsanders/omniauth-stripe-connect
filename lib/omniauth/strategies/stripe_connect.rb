@@ -28,6 +28,14 @@ module OmniAuth
         }
       end
 
+      credentials do
+        hash = {'token' => access_token.token}
+        hash.merge!('refresh_token' => access_token.refresh_token) if access_token.refresh_token
+        hash.merge!('expires_at' => access_token.expires_at) if access_token.expires?
+        hash.merge!('expires' => access_token.expires?)
+        hash
+      end
+
       def raw_info
         @raw_info ||= deep_symbolize(access_token.params)
       end
