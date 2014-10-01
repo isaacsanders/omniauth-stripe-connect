@@ -60,21 +60,6 @@ Then you can hit `/auth/stripe_connect`
 
 If you hit `/auth/stripe_connect` with any query params, they will be passed along to Stripe. Read [Stripe's OAuth Reference](https://stripe.com/docs/connect/reference) for more information.
 
-### Ruby on Rails apps with Devise
-
-After setting up Devise to use OmniAuth, you only need to add the following line of code to handle the OAuth2 part of Stripe Connect. Since this Devise initializer code takes care of OmniAuth, do not use a separate OmniAuth initializer.
-
-```ruby
-# Put this in config/initializers/devise.rb with the rest of your Devise configuration
-config.omniauth :stripe_connect,
-  ENV['STRIPE_CONNECT_CLIENT_ID'],
-  ENV['STRIPE_SECRET_KEY'],
-  :scope => 'read_write', # or :scope => 'read_only'
-  :stripe_landing => 'login' # or :stripe_landing => 'register'
-```
-
-Now your done!
-
 ## Auth Hash
 
 Here is an example of the Auth Hash you get back from calling `request.env['omniauth.auth']`:
