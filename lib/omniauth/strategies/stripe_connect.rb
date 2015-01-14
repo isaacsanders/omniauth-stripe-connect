@@ -16,6 +16,9 @@ module OmniAuth
 
       info do
         {
+          :name => extra_info[:display_name] || extra_info[:business_name] || extra_info[:email],
+          :email => extra_info[:email],
+          :nickname => extra_info[:display_name],
           :scope => raw_info[:scope],
           :livemode => raw_info[:livemode],
           :stripe_publishable_key => raw_info[:stripe_publishable_key]
@@ -23,9 +26,12 @@ module OmniAuth
       end
 
       extra do
-        {
+        e = {
           :raw_info => raw_info
         }
+        e[:extra_info] = extra_info unless skip_info?
+
+        e
       end
 
       credentials do
@@ -38,6 +44,10 @@ module OmniAuth
 
       def raw_info
         @raw_info ||= deep_symbolize(access_token.params)
+      end
+
+      def extra_info
+        @extra_info ||= deep_symbolize(access_token.get("https://api.stripe.com/v1/account").parsed)
       end
 
       def redirect_params
