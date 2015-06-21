@@ -24,6 +24,7 @@ Or install it yourself as:
 OmniAuth::Strategies::StripeConnect is simply a Rack middleware. Read the OmniAuth
 1.0 docs for detailed instructions: https://github.com/intridea/omniauth.
 
+### Non-Devise
 Here's a quick example, adding the middleware to a Rails app in
 `config/initializers/omniauth.rb`:
 
@@ -32,6 +33,16 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :stripe_connect, ENV['STRIPE_CONNECT_CLIENT_ID'], ENV['STRIPE_SECRET']
 end
 ```
+
+### Devise
+
+You need to declare the provider in your `config/initializers/devise.rb`:
+
+```ruby
+config.omniauth :stripe_connect, "STRIPE_CONNECT_CLIENT_ID", "STRIPE_SECRET"
+```
+
+### General Usage
 
 Your `STRIPE_CONNECT_CLIENT_ID` is application-specific and your `STRIPE_SECRET` is account-specific and may also be known as your Stripe API key or Stripe Private key.
 
