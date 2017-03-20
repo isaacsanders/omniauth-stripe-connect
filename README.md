@@ -69,7 +69,7 @@ The Webhook URL will be something similar:
 
 Then you can hit `/auth/stripe_connect`
 
-If you hit `/auth/stripe_connect` with any query params, they will be passed along to Stripe. Read [Stripe's OAuth Reference](https://stripe.com/docs/connect/reference) for more information.
+If you hit `/auth/stripe_connect` with any query params, they will be passed along to Stripe. You can access these params from `request.env['omniauth.params']`. Read [Stripe's OAuth Reference](https://stripe.com/docs/connect/reference) for more information.
 
 ## Auth Hash
 
