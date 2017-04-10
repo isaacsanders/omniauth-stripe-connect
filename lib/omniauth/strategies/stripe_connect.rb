@@ -83,6 +83,16 @@ module OmniAuth
         verifier = request.params['code']
         client.auth_code.get_token(verifier, token_params)
       end
+
+      alias :old_request_phase :request_phase
+      def request_phase
+        options[:authorize_params].merge!(
+          :stripe_landing => session["omniauth.params"]["stripe_landing"],
+          :stripe_user => session["omniauth.params"]["stripe_user"]
+        )
+        p options
+        old_request_phase
+      end
     end
   end
 end
