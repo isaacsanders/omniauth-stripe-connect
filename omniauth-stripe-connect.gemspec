@@ -20,4 +20,5 @@ Read the Stripe Connect docs for more details: https://stripe.com/docs/connect
 
   gem.add_dependency 'omniauth', '~> 1.3'
   gem.add_dependency 'omniauth-oauth2', '~> 1.4'
+  gem.add_dependency 'jwt', '~> 1.0'
 end
