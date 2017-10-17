@@ -11,6 +11,7 @@ module OmniAuth
 
       option :authorize_options, [:scope, :stripe_landing, :always_prompt]
       option :provider_ignores_state, true
+      option :stripe_express, false
 
       uid { raw_info[:stripe_user_id] }
 
@@ -76,6 +77,10 @@ module OmniAuth
       end
 
       def request_phase
+        stripe_client = client
+        if options[:stripe_express]
+          stripe_client.options[:authorize_url] = "/express/oauth/authorize"
+        end
         redirect client.auth_code.authorize_url(authorize_params)
       end
 
