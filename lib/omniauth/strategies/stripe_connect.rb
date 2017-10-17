@@ -81,7 +81,7 @@ module OmniAuth
         if options[:stripe_express]
           stripe_client.options[:authorize_url] = "/express/oauth/authorize"
         end
-        redirect client.auth_code.authorize_url(authorize_params)
+        redirect stripe_client.auth_code.authorize_url(authorize_params)
       end
 
       def build_access_token
