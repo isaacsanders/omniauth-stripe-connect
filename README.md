@@ -51,7 +51,7 @@ You'll also need to add some configuration to your devise model (e.g. User in `a
 
 Your `STRIPE_CONNECT_CLIENT_ID` is application-specific and your `STRIPE_SECRET` is account-specific and may also be known as your Stripe API key or Stripe Private key.
 
-Edit your routes.rb file to have:
+Edit your `routes.rb` file to have:
 `devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }`
 
 And create a file called `omniauth_callbacks_controller.rb` which should have this inside:
