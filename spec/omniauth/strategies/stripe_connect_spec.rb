@@ -70,6 +70,31 @@ describe OmniAuth::Strategies::StripeConnect do
       instance.authorize_params
       expect(instance.token_params[:redirect_uri]).to be_nil
     end
+
+    it 'should generate and decode correct JWTs' do
+      instance = subject.new('abc', 'def')
+      hash = {"foo" => "bar", "biz" => "baz"}
+      jwt = instance.generate_jwt_state(hash)
+      hash_internal = JWT.decode(jwt, nil, false).first
+      expect(hash_internal.has_key?("_state")).to be_true
+      hash_jwt_decoded = instance.decode_jwt_state(jwt)
+      expect(hash_jwt_decoded.has_key?("_state")).to be_false
+      expect(hash_jwt_decoded["foo"]).to eql("bar")
+      expect(hash_jwt_decoded["biz"]).to eql("baz")
+    end
+
+    it 'should generate and decode correct JWTs with HMAC' do
+      secret =  "secret_shh"
+      instance = subject.new('abc', 'def')
+      hash = {"foo" => "bar", "biz" => "baz"}
+      jwt = instance.generate_jwt_state(hash, secret)
+      hash_internal = JWT.decode(jwt, nil, false).first
+      expect(hash_internal.has_key?("_state")).to be_true
+      hash_jwt_decoded = instance.decode_jwt_state(jwt, secret)
+      expect(hash_jwt_decoded.has_key?("_state")).to be_false
+      expect(hash_jwt_decoded["foo"]).to eql("bar")
+      expect(hash_jwt_decoded["biz"]).to eql("baz")
+    end
   end
 
   describe '#callback_url' do

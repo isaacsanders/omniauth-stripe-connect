@@ -4,6 +4,7 @@ module OmniAuth
   module Strategies
     class StripeConnect < OmniAuth::Strategies::OAuth2
       option :name, :stripe_connect
+      option :jwt_hmac_secret, nil
 
       option :client_options, {
         :site => 'https://connect.stripe.com'
@@ -58,14 +59,26 @@ module OmniAuth
         end
       end
 
-      # NOTE: We call redirect_params AFTER super in these methods intentionally
-      # the OAuth2 strategy uses the authorize_params and token_params methods
-      # to set up some state for testing that we need in redirect_params
-
+      # Manually create a state param, with JWT.
       def authorize_params
-        params = super
-        params = params.merge(request.params) unless OmniAuth.config.test_mode
+        if !OmniAuth.config.test_mode
+          options.authorize_params[:state] = generate_jwt_state(request.params)
+          # Remove querystring params as only `state` is allowed.
+          request.params.clear
+        end
+        params = options.authorize_params.merge(options_for("authorize"))
+        if OmniAuth.config.test_mode
+          @env ||= {}
+          @env["rack.session"] ||= {}
+        end
+        session["omniauth.state"] = params[:state]
         redirect_params.merge(params)
+      end
+
+      # Do validation callbacks, then manually set 'omniauth.params' with decoded JWT.
+      def callback_phase # rubocop:disable AbcSize, CyclomaticComplexity, MethodLength, PerceivedComplexity
+        super
+        @env['omniauth.params'] = decode_jwt_state(session['omniauth.state'])
       end
 
       def token_params
@@ -86,6 +99,33 @@ module OmniAuth
       def build_access_token
         verifier = request.params['code']
         client.auth_code.get_token(verifier, token_params)
+      end
+
+      # Stripe does not allow query string for callback_url. override base strategy.
+      def callback_url
+        full_host + script_name + callback_path
+      end
+
+      def generate_jwt_state(params, hmac_secret = options[:jwt_hmac_secret])
+        payload = {_state: SecureRandom.hex(24)}
+        payload = params.merge(payload) unless params.nil?
+        # use hmac if it is set.
+        if hmac_secret.nil?
+          jwt = JWT.encode(payload, nil, 'none')
+        else
+          jwt = JWT.encode(payload, hmac_secret, 'HS256')
+        end
+        jwt
+      end
+
+      def decode_jwt_state(jwt, hmac_secret = options[:jwt_hmac_secret])
+        if hmac_secret.nil?
+          payload = JWT.decode(jwt, nil, false)
+        else
+          payload = JWT.decode(jwt, hmac_secret, true)
+        end
+        payload.first.delete("_state")
+        payload.first
       end
     end
   end
