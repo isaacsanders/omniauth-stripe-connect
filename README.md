@@ -129,7 +129,7 @@ Here is an example of the Auth Hash you get back from calling `request.env['omni
 ```
 
 ## Additional Tutorials
-[Stripe Connect in Rails Tutorial](http://www.munocreative.com/nerd-notes/winvoice)
+[Stripe Connect in Rails Tutorial](https://web.archive.org/web/20160313043319/http://www.munocreative.com/nerd-notes/winvoice)
 
 ## Contributing
 
