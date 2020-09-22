@@ -11,6 +11,8 @@ module OmniAuth
 
       option :authorize_options, [:scope, :stripe_landing, :always_prompt]
       option :provider_ignores_state, true
+      option :stripe_express, false
+      option :suggested_capabilities, []
 
       uid { raw_info[:stripe_user_id] }
 
@@ -26,9 +28,7 @@ module OmniAuth
       end
 
       extra do
-        e = {
-          :raw_info => raw_info
-        }
+        e = { raw_info: raw_info }
         e[:extra_info] = extra_info unless skip_info?
 
         e
@@ -51,10 +51,13 @@ module OmniAuth
       end
 
       def redirect_params
-        if options.key?(:callback_path) || OmniAuth.config.full_host
-          {:redirect_uri => callback_url}
+        hash = {}
+        hash.merge!(redirect_uri: callback_url) if options.key?(:callback_path) || OmniAuth.config.full_host
+
+        if options[:suggested_capabilities].any?
+          hash.merge(suggested_capabilities: options[:suggested_capabilities])
         else
-          {}
+          hash
         end
       end
 
@@ -69,8 +72,9 @@ module OmniAuth
       end
 
       def token_params
-       params = super.to_hash(:symbolize_keys => true) \
-          .merge(:headers => { 'Authorization' => "Bearer #{client.secret}" })
+        params = super.to_hash(:symbolize_keys => true).merge(
+          headers: { 'Authorization' => "Bearer #{client.secret}" }
+        )
 
         redirect_params.merge(params)
       end
@@ -80,7 +84,10 @@ module OmniAuth
       end
 
       def request_phase
-        redirect client.auth_code.authorize_url(authorize_params)
+        stripe_client = client
+        stripe_client.options[:authorize_url] = "/express/oauth/authorize" if options[:stripe_express]
+
+        redirect stripe_client.auth_code.authorize_url(authorize_params)
       end
 
       def build_access_token
