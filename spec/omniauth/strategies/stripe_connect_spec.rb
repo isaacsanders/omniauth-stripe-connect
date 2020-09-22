@@ -103,9 +103,6 @@ describe OmniAuth::Strategies::StripeConnect do
       instance = subject.new('abc', 'def', stripe_express: true, suggested_capabilities: ['transfers', 'tax_reporting_us_1099_k'])
       instance.authorize_params
 
-      puts instance.request_phase[1]['Location']
-
-
       expect(instance.request_phase[1]['Location'].scan('suggested_capabilities').count).to eq(2)
     end
 
