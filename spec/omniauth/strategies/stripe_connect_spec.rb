@@ -82,4 +82,38 @@ describe OmniAuth::Strategies::StripeConnect do
       expect(instance.callback_url).to eq 'https://foo.com/bar/baz'
     end
   end
+
+  describe '#stripe_express' do
+    subject { fresh_strategy }
+    OmniAuth.config.full_host = 'https://foo.com/'
+
+    it 'returns the stripe express auth path' do
+      instance = subject.new('abc', 'def', stripe_express: true)
+      instance.authorize_params
+
+      expect(instance.request_phase[1]['Location'].include?('/express/oauth/authorize')).to eq true
+    end
+  end
+
+  describe '#suggested_capabilities' do
+    subject { fresh_strategy }
+    OmniAuth.config.full_host = 'https://foo.com/'
+
+    it 'returns a url with suggested capabilities params' do
+      instance = subject.new('abc', 'def', stripe_express: true, suggested_capabilities: ['transfers', 'tax_reporting_us_1099_k'])
+      instance.authorize_params
+
+      puts instance.request_phase[1]['Location']
+
+
+      expect(instance.request_phase[1]['Location'].scan('suggested_capabilities').count).to eq(2)
+    end
+
+    it 'does not add if no capabilities supplied' do
+      instance = subject.new('abc', 'def', stripe_express: true, suggested_capabilities: [])
+      instance.authorize_params
+
+      expect(instance.request_phase[1]['Location'].scan('suggested_capabilities').count).to eq(0)
+    end
+  end
 end
