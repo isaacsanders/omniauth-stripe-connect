@@ -73,6 +73,10 @@ module OmniAuth
         redirect_params.merge(params)
       end
 
+      def callback_url
+        full_host + script_name + callback_path
+      end
+
       def request_phase
         redirect client.auth_code.authorize_url(authorize_params)
       end

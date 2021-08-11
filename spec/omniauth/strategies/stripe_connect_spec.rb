@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe OmniAuth::Strategies::StripeConnect do
-  let(:fresh_strategy){ Class.new(OmniAuth::Strategies::StripeConnect) }
+  let(:fresh_strategy) { Class.new(OmniAuth::Strategies::StripeConnect) }
 
 
   before(:each) do
@@ -69,6 +69,17 @@ describe OmniAuth::Strategies::StripeConnect do
 
       instance.authorize_params
       expect(instance.token_params[:redirect_uri]).to be_nil
+    end
+  end
+
+  describe '#callback_url' do
+    subject { fresh_strategy }
+    OmniAuth.config.full_host = 'https://foo.com/'
+
+    it 'returns a url with the host and path' do
+      instance = subject.new('abc', 'def', :callback_path => 'bar/baz')
+      instance.authorize_params
+      expect(instance.callback_url).to eq 'https://foo.com/bar/baz'
     end
   end
 end

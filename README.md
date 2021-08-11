@@ -42,11 +42,16 @@ You need to declare the provider in your `config/initializers/devise.rb`:
 config.omniauth :stripe_connect, "STRIPE_CONNECT_CLIENT_ID", "STRIPE_SECRET"
 ```
 
+You'll also need to add some configuration to your devise model (e.g. User in `app/models/user.rb`) along with any other OmniAuth providers you might have:
+```ruby
+:omniauthable, :omniauth_providers => [:stripe_connect]
+```
+
 ### General Usage
 
 Your `STRIPE_CONNECT_CLIENT_ID` is application-specific and your `STRIPE_SECRET` is account-specific and may also be known as your Stripe API key or Stripe Private key.
 
-Edit your routes.rb file to have:
+Edit your `routes.rb` file to have:
 `devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }`
 
 And create a file called `omniauth_callbacks_controller.rb` which should have this inside:
@@ -124,7 +129,7 @@ Here is an example of the Auth Hash you get back from calling `request.env['omni
 ```
 
 ## Additional Tutorials
-[Stripe Connect in Rails Tutorial](http://www.munocreative.com/nerd-notes/winvoice)
+[Stripe Connect in Rails Tutorial](https://web.archive.org/web/20160313043319/http://www.munocreative.com/nerd-notes/winvoice)
 
 ## Contributing
 
