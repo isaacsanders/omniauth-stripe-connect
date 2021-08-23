@@ -64,7 +64,7 @@ module OmniAuth
 
       def authorize_params
         params = super
-        params = params.merge(request.params) unless OmniAuth.config.test_mode
+        params = params.merge(request_params) unless OmniAuth.config.test_mode
         redirect_params.merge(params)
       end
 
@@ -86,6 +86,14 @@ module OmniAuth
       def build_access_token
         verifier = request.params['code']
         client.auth_code.get_token(verifier, token_params)
+      end
+
+      def request_params
+        request.params.except(*request_blacklisted_params)
+      end
+
+      def request_blacklisted_params
+        %w(_method)
       end
     end
   end
