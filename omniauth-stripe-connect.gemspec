@@ -19,6 +19,6 @@ Read the Stripe Connect docs for more details: https://stripe.com/docs/connect
   gem.version       = OmniAuth::StripeConnect::VERSION
   gem.license       = "MIT"
 
-  gem.add_dependency 'omniauth', '~> 1.3'
+  gem.add_dependency 'omniauth', '~> 2.0'
   gem.add_dependency 'omniauth-oauth2', '~> 1.4'
 end
