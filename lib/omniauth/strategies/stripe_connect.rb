@@ -51,7 +51,7 @@ module OmniAuth
       end
 
       def redirect_params
-        if options.key?(:callback_path) || OmniAuth.config.full_host
+        if options.key?(:custom_redirect_uri) || options.key?(:callback_path) || OmniAuth.config.full_host
           {:redirect_uri => callback_url}
         else
           {}
@@ -69,13 +69,15 @@ module OmniAuth
       end
 
       def token_params
-       params = super.to_hash(:symbolize_keys => true) \
-          .merge(:headers => { 'Authorization' => "Bearer #{client.secret}" })
+        params = super.to_hash(:symbolize_keys => true) \
+                      .merge(:headers => { 'Authorization' => "Bearer #{client.secret}" })
 
         redirect_params.merge(params)
       end
 
       def callback_url
+        return options[:custom_redirect_uri] if options.key?(:custom_redirect_uri)
+
         full_host + script_name + callback_path
       end
 
